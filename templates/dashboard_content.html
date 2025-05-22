@@ -1,0 +1,236 @@
+<style>
+  :root {
+    --primary: #00a1ab;
+    --bg: #15161a;
+    --card-bg: #23232b;
+    --accent: #00a1ab;
+    --text: #f5f6fa;
+    --muted: #b0b0b0;
+    --danger: #ff5252;
+    --success: #00e676;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  .welcome-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .welcome-title {
+    font-size: 2.2rem;
+    margin-bottom: 0.3em;
+    color: var(--text);
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 1.1rem;
+    margin-bottom: 1.5em;
+  }
+  .dashboard-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: stretch;
+  }
+  .welcome-card { grid-column: 1 / 2; grid-row: 1 / 2; }
+  .slogan-card { grid-column: 2 / 3; grid-row: 1 / 2; }
+  .help-card { grid-column: 1 / 2; grid-row: 2 / 3; }
+  .license-card { grid-column: 2 / 3; grid-row: 2 / 3; }
+  .quickstart-card { grid-column: 1 / 3; grid-row: 3 / 4; }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.45);
+    padding: 28px 24px 24px 24px;
+    min-width: 0;
+    margin-bottom: 0;
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.55);
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+  .card-icon {
+    font-size: 2rem;
+    color: var(--accent);
+    margin-right: 12px;
+  }
+  .card h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--primary);
+    font-weight: 700;
+  }
+  .features-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #18181f;
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-size: 1rem;
+    transition: background 0.2s;
+  }
+  .feature-item:hover {
+    background: #23232b;
+  }
+  .feature-icon {
+    color: var(--accent);
+    font-size: 1.2rem;
+  }
+  .license-content {
+    font-size: 1.1rem;
+    color: var(--text);
+    margin-top: 10px;
+  }
+  .license-card-permanent {
+    color: var(--success);
+    font-weight: bold;
+  }
+  .license-card-no-license {
+    color: var(--danger);
+    font-weight: bold;
+  }
+  .quickstart-card .guide-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .quickstart-card .step-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 1.05rem;
+  }
+  .quickstart-card .step-number {
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 12px;
+    font-size: 1rem;
+  }
+  @media (max-width: 900px) {
+    .dashboard-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .card {
+      min-width: 90vw;
+      max-width: 98vw;
+    }
+  }
+</style>
+<div class="welcome-header">
+  <h2 class="welcome-title">Bienvenido/a, {{ current_user.email }}!</h2>
+  <p class="subtitle">Gestión inteligente de información empresarial</p>
+</div>
+
+<div class="dashboard-container">
+  <!-- Tarjeta de bienvenida -->
+  <div class="card welcome-card">
+    <div class="card-header">
+      <span class="card-icon"><i class="fas fa-user"></i></span>
+      <h3>Tu cuenta</h3>
+    </div>
+    <div class="features-grid">
+      <div class="feature-item">
+        <span class="feature-icon"><i class="fas fa-envelope"></i></span>
+        <span>{{ current_user.email }}</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon"><i class="fas fa-user-tag"></i></span>
+        <span>Rol: {{ current_user.rol }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tarjeta de eslogan -->
+  <div class="card slogan-card">
+    <div class="card-header">
+      <span class="card-icon"><i class="fas fa-bolt"></i></span>
+      <h3>Gravity</h3>
+    </div>
+    <div style="font-size:1.15rem; color:var(--accent); font-weight:600; margin-top: 10px;">
+      Gravity, el mejor sistema de ventas de licencias del mercado
+    </div>
+  </div>
+
+  <!-- Tarjeta de ayuda -->
+  <div class="card help-card">
+    <div class="card-header">
+      <span class="card-icon"><i class="fas fa-question-circle"></i></span>
+      <h3>Ayuda y Soporte</h3>
+    </div>
+    <div style="font-size:1.05rem; color:var(--muted);">
+      Disponemos de una pestaña de <strong>Guías</strong> por si quiere ver cómo se utiliza algún apartado de la aplicación o le surge alguna duda.<br><br>
+      También tenemos los <strong>Tickets / Mensajes</strong> por si el usuario tiene alguna duda más compleja que requiera de soporte.<br><br>
+      Por último, tenemos el <strong>ChatBot de IA</strong>: se le puede consultar cualquier tipo de duda relacionada con la aplicación que la resolverá muy rápido, sin necesidad de abrir un ticket de soporte y para cuestiones que no requieran de evaluación humana.
+    </div>
+  </div>
+
+  <!-- Tarjeta de licencia -->
+  <div class="card license-card">
+    <div class="card-header">
+      <span class="card-icon"><i class="fas fa-certificate"></i></span>
+      <h3>Licencia</h3>
+    </div>
+    <div class="license-content">
+      {% set licencia = current_user.licencias|selectattr('estado', 'equalto', 'Activa')|list|first %}
+      {% if licencia %}
+        <p>
+          Tipo: <strong>{{ licencia.tipo }}</strong><br>
+          {% if licencia.tipo != 'Permanente' %}
+            Válida hasta: <strong>{{ licencia.fecha_fin.strftime('%d/%m/%Y') }}</strong>
+          {% else %}
+            <span class="license-card-permanent">Licencia permanente</span>
+          {% endif %}
+        </p>
+      {% else %}
+        <span class="license-card-no-license">No tienes licencia activa</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Guía rápida -->
+  <div class="card quickstart-card">
+    <div class="card-header">
+      <span class="card-icon"><i class="fas fa-rocket"></i></span>
+      <h3>Guía rápida</h3>
+    </div>
+    <ol class="guide-steps">
+      <li class="step-item"><span class="step-number">1</span> Compra una licencia</li>
+      <li class="step-item"><span class="step-number">2</span> Accede a la búsqueda de información</li>
+      <li class="step-item"><span class="step-number">3</span> ¡Disfruta de Gravity!</li>
+    </ol>
+  </div>
+</div>

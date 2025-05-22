@@ -1,0 +1,7 @@
+Flask
+Flask-APScheduler
+Flask-SQLAlchemy
+Flask-Login
+Werkzeug
+requests
+mysqlclient

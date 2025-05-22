@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Compra Exitosa</title>
+  
+  <!-- Vincular Google Fonts para una tipografía profesional -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Vincular Font Awesome para iconos -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    /* Estilo base */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #121212; /* Fondo oscuro */
+      color: #e0e0e0; /* Texto claro */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      animation: fadeInBody 1.5s ease-in-out;
+    }
+
+    /* Animación para el fondo */
+    @keyframes fadeInBody {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .container {
+      text-align: center;
+      background-color: #1f1f1f;
+      border-radius: 10px;
+      padding: 40px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      animation: fadeInContainer 1.5s ease-in-out;
+    }
+
+    /* Animación para el contenedor */
+    @keyframes fadeInContainer {
+      from {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      color: #007bff; /* Azul profesional */
+      margin-bottom: 20px;
+      font-weight: 700;
+      animation: fadeInText 1s ease-in-out;
+    }
+
+    /* Animación de desvanecimiento para el título */
+    @keyframes fadeInText {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin: 10px 0;
+      animation: fadeInText 1.2s ease-in-out;
+      line-height: 1.6;
+    }
+
+    .success-icon {
+      font-size: 4rem;
+      color: #007bff; /* Azul brillante */
+      margin-bottom: 30px;
+      animation: fadeInIcon 1.4s ease-in-out;
+    }
+
+    /* Animación para el icono de éxito */
+    @keyframes fadeInIcon {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .cta-button {
+      background-color: #007bff; /* Azul brillante */
+      color: #fff;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s, transform 0.3s;
+      display: inline-block;
+      margin-top: 30px;
+    }
+
+    /* Efecto hover sobre el botón */
+    .cta-button:hover {
+      background-color: #0056b3;
+      transform: translateY(-5px); /* Efecto de desplazamiento */
+    }
+
+    .cta-button:active {
+      transform: translateY(2px); /* Efecto de presionado */
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 0.9rem;
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Usamos un icono de Font Awesome -->
+    <div class="success-icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    <h1>¡Compra Exitosa!</h1>
+    <p>Tu licencia ha sido adquirida correctamente. Ahora podrás disfrutar de todas las funcionalidades premium.</p>
+    <p>Gracias por confiar en nosotros. Si tienes alguna duda, no dudes en contactarnos.</p>
+    <a href="/" class="cta-button">Volver a la Página Principal</a>
+
+    <div class="footer">
+      <p>&copy; 2024 Gravity. Todos los derechos reservados.</p>
+    </div>
+  </div>
+
+</body>
+</html>

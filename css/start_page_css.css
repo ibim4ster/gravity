@@ -1,0 +1,347 @@
+      :root {
+        --primary: #00ff88;
+        --secondary: #60efff;
+        --bg: #0a0a0a;
+        --card-bg: #151515;
+      }
+
+      body {
+        background-color: var(--bg);
+        color: #ffffff;
+        font-family: "Inter", sans-serif;
+        min-height: 100vh;
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      #particles-js {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+      }
+
+      .glass-panel {
+        background: rgba(21, 21, 21, 0.8);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero-section {
+        min-height: 70vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .logo {
+        width: 180px;
+        margin-bottom: 2rem;
+        filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.3));
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 1.5rem;
+        margin-top: 3rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .btn {
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        border: 2px solid transparent;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: #000;
+        box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 30px rgba(0, 255, 136, 0.5);
+      }
+
+      .features-section {
+        padding: 5rem 2rem;
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .feature-card {
+        background: var(--card-bg);
+        padding: 2.5rem;
+        border-radius: 20px;
+        text-align: center;
+        transition: transform 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(96, 239, 255, 0.1),
+          transparent
+        );
+        transform: rotate(45deg);
+        pointer-events: none;
+      }
+
+      .feature-icon {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+      }
+
+      .discord-cta {
+        text-align: center;
+        padding: 5rem 2rem;
+        background: linear-gradient(45deg, var(--bg), #001319);
+      }
+
+      .gradient-text {
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Nuevos estilos para tarjetas NFT */
+      .pricing-section {
+        padding: 5rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .pricing-cards {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        justify-content: center;
+      }
+
+      .price-card {
+        user-select: none;
+        border: 1px solid #ffffff22; /* Borde igual al NFT */
+        background: linear-gradient(
+          0deg,
+          var(--card-bg) 0%,
+          rgba(17, 0, 32, 0.5) 100%
+        );
+        box-shadow: 0 7px 20px 5px #00000088;
+        border-radius: 0.7rem;
+        backdrop-filter: blur(7px);
+        -webkit-backdrop-filter: blur(7px);
+        overflow: hidden;
+        transition: 0.5s all;
+        padding: 2rem;
+        margin: 1rem;
+        position: relative;
+      }
+
+      .price-card::before {
+        position: absolute;
+        content: "";
+        box-shadow: 0 0 100px 40px rgba(96, 239, 255, 0.08);
+        top: -10%;
+        left: -100%;
+        transform: rotate(-45deg);
+        height: 60rem;
+        transition: 0.7s all;
+        pointer-events: none;
+      }
+
+      .price-card:hover {
+        border: 1px solid #ffffff44; /* Efecto hover igual al NFT */
+        box-shadow: 0 7px 50px 10px #000000aa;
+        transform: scale(1.015);
+        filter: brightness(1.1);
+      }
+
+      .price-card:hover::before {
+        filter: brightness(0.5);
+        top: -100%;
+        left: 200%;
+      }
+
+      .price {
+        font-size: 2.5rem;
+        margin: 1.5rem 0;
+        font-weight: bold;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .price-features {
+        list-style: none;
+        padding: 0;
+        color: #a89ec9;
+        margin: 2rem 0;
+      }
+
+      .price-features li {
+        margin: 1rem 0;
+        padding: 0.5rem;
+        border-bottom: 1px solid rgba(136, 136, 136, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .btn-disabled {
+        background: #555 !important;
+        color: #999 !important;
+        cursor: not-allowed;
+        pointer-events: none;
+        box-shadow: none !important;
+      }
+
+      .btn-disabled:hover {
+        transform: none !important;
+      }
+
+      footer {
+        background: var(--card-bg);
+        padding: 3rem 2rem;
+        margin-top: 5rem;
+        text-align: center;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+      }
+
+      .footer-section h4 {
+        color: var(--primary);
+        margin-bottom: 1rem;
+      }
+
+      .footer-section a {
+        color: #ccc;
+        text-decoration: none;
+        display: block;
+        margin: 0.5rem 0;
+        transition: color 0.3s ease;
+      }
+
+      .footer-section a:hover {
+        color: var(--primary);
+      }
+
+      .chatbot-container {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 1000;
+      }
+
+      .chatbot-toggle {
+        background: var(--primary);
+        color: #000;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .chatbot-toggle:hover {
+        transform: scale(1.1);
+      }
+
+      .chatbot-window {
+        position: absolute;
+        bottom: 80px;
+        right: 0;
+        width: 300px;
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        display: none;
+      }
+
+      .chatbot-header {
+        color: var(--primary);
+        margin-bottom: 1rem;
+      }
+
+      .chatbot-messages {
+        height: 200px;
+        overflow-y: auto;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 1rem;
+      }
+
+      .chatbot-input {
+        width: 100%;
+        padding: 0.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 5px;
+        color: white;
+      }
+
+      @media (max-width: 768px) {
+        .btn {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .features-section {
+          grid-template-columns: 1fr;
+        }
+
+        .pricing-cards {
+          grid-template-columns: 1fr;
+        }
+
+        .chatbot-window {
+          width: 90%;
+          right: 5%;
+        }
+      }

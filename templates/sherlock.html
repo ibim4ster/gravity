@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sherlock - Búsqueda</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            margin-right: 10px;
+            background-color: #333;
+            color: white;
+            border: 1px solid #555;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #ff5c8d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff4170;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #333;
+            color: white;
+            height: 400px;
+            overflow-y: scroll;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Sherlock - Búsqueda de Usuario</h1>
+
+    <form id="sherlock-form">
+        <label for="username">Nombre de usuario:</label>
+        <input type="text" id="username" name="username" required />
+        <button type="submit">Buscar</button>
+    </form>
+
+    <div id="output"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Manejar el evento de submit del formulario
+            $('#sherlock-form').on('submit', function(event) {
+                event.preventDefault();  // Prevenir el comportamiento por defecto del formulario
+
+                var username = $('#username').val();  // Obtener el valor del campo de texto
+
+                // Verificar que el campo de nombre de usuario no esté vacío
+                if (username.trim() === '') {
+                    $('#output').text('Por favor, ingresa un nombre de usuario.');
+                    return;
+                }
+
+                // Limpiar el área de resultados antes de enviar
+                $('#output').text('Cargando...');
+
+                // Realizar la solicitud AJAX para enviar el username
+                $.ajax({
+                    url: '/run_sherlock',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ username: username }),  // Enviar el username como JSON
+                    success: function(response) {
+                        $('#output').text(response.message);  // Mostrar los resultados en el HTML
+                    },
+                    error: function(xhr, status, error) {
+                        $('#output').text('Error al ejecutar Sherlock: ' + xhr.responseText);
+                    }
+                });
+
+                // Establecer la conexión para recibir los resultados en tiempo real (SSE)
+                var eventSource = new EventSource('/run_sherlock');
+                eventSource.onmessage = function(event) {
+                    $('#output').append(event.data + '\n');
+                    $('#output').scrollTop($('#output')[0].scrollHeight);  // Desplazar hacia abajo
+                };
+
+                eventSource.onerror = function(event) {
+                    $('#output').text('Error al ejecutar Sherlock en tiempo real.');
+                    eventSource.close();
+                };
+            });
+        });
+    </script>
+
+</body>
+</html>

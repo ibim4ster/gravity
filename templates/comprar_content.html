@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compra de Licencias</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    h2.centered {
+      text-align: center;
+      margin: 60px 0;
+      font-size: 2.5em;
+      font-weight: 700;
+      color: #f5f5f5;
+    }
+
+    .license-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      padding: 0 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .license-card {
+      width: 320px;
+      background-color: #1e1e1e;
+      border-radius: 12px;
+      padding: 25px 20px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+      text-align: center;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .license-card:hover {
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+      transform: translateY(-10px);
+      transition: transform 0.3s ease, box-shadow 0.4s ease;
+    }
+
+    .license-card h3 {
+      color: #f5f5f5;
+      font-size: 1.6em;
+      margin-bottom: 15px;
+    }
+
+    .icon {
+      font-size: 3em;
+      color: #888;
+      margin: 20px 0;
+    }
+
+    .description {
+      font-style: italic;
+      color: #bbb;
+      font-size: 1.1em;
+      margin: 20px 0;
+    }
+
+    .price {
+      font-size: 2em;
+      color: #fff;
+      background-color: #333;
+      padding: 12px 18px;
+      border-radius: 8px;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .cta-button {
+      margin-top: 18px;
+    }
+
+    .monthly {
+      border-left: 5px solid #888;
+    }
+
+    .permanent {
+      border-left: 5px solid #ffd700;
+    }
+
+    .annual {
+      border-left: 5px solid #007bff;
+    }
+
+    .payment-logos {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+      padding-top: 20px;
+      font-size: 2.5em;
+    }
+
+    .payment-logos i {
+      color: #ddd;
+      transition: color 0.3s ease;
+    }
+
+    .payment-logos i:hover {
+      color: #fff;
+    }
+
+    .payment-text {
+      text-align: center;
+      font-size: 1.1em;
+      color: #ddd;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      .license-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .license-card {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .payment-logos {
+        gap: 15px;
+      }
+    }
+  </style>
+  <!-- PayPal SDK SANDBOX -->
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
+</head>
+<body>
+  <h2 class="centered">Compra de Licencias</h2>
+  <div class="license-container">
+    <!-- Licencia Mensual -->
+    <div class="license-card monthly">
+      <h3>Licencia Mensual</h3>
+      <div class="icon">
+        <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+      </div>
+      <div class="description">
+        Acceso completo a la búsqueda de datos durante 1 mes.
+      </div>
+      <div class="price">$9.99</div>
+      <p>Duración: 30 días</p>
+      <div class="cta-button">
+        <div id="paypal-button-container-mensual"></div>
+      </div>
+    </div>
+    <!-- Licencia Anual -->
+    <div class="license-card annual">
+      <h3>Licencia Anual</h3>
+      <div class="icon">
+        <i class="fas fa-calendar" aria-hidden="true"></i>
+      </div>
+      <div class="description">
+        Acceso completo a la búsqueda de datos durante 1 año.
+      </div>
+      <div class="price">$49.99</div>
+      <p>Duración: 1 año</p>
+      <div class="cta-button">
+        <div id="paypal-button-container-anual"></div>
+      </div>
+    </div>
+    <!-- Licencia Permanente -->
+    <div class="license-card permanent">
+      <h3>Licencia Permanente</h3>
+      <div class="icon">
+        <i class="fas fa-infinity" aria-hidden="true"></i>
+      </div>
+      <div class="description">
+        Acceso completo a la búsqueda de datos para siempre.
+      </div>
+      <div class="price">$99.99</div>
+      <p>Duración: Para siempre</p>
+      <div class="cta-button">
+        <div id="paypal-button-container-permanente"></div>
+      </div>
+    </div>
+  </div>
+  <div class="payment-text">
+    <p>Se aceptan pagos con</p>
+  </div>
+  <div class="payment-logos">
+    <i class="fab fa-cc-visa" aria-hidden="true"></i>
+    <i class="fab fa-cc-mastercard" aria-hidden="true"></i>
+    <i class="fab fa-cc-paypal" aria-hidden="true"></i>
+    <i class="fab fa-apple-pay" aria-hidden="true"></i>
+    <i class="fab fa-cc-amex" aria-hidden="true"></i>
+  </div>
+  <script>
+    function activarLicencia(tipo) {
+      fetch('/activar_licencia_paypal', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ tipo: tipo })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            window.location.href = "/compra_exitosa";
+          } else {
+            alert("Error al activar la licencia: " + (data.error || "Desconocido"));
+          }
+        });
+    }
+
+    // Botón para Licencia Mensual (gris)
+    paypal.Buttons({
+      style: { layout: 'vertical', color: 'silver', shape: 'pill', label: 'paypal' },
+      createOrder: function (data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: { value: '9.99' },
+            description: 'Licencia Mensual'
+          }]
+        });
+      },
+      onApprove: function (data, actions) {
+        return actions.order.capture().then(function (details) {
+          activarLicencia('Mensual');
+        });
+      }
+    }).render('#paypal-button-container-mensual');
+
+    // Botón para Licencia Anual (azul)
+    paypal.Buttons({
+      style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'paypal' },
+      createOrder: function (data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: { value: '49.99' },
+            description: 'Licencia Anual'
+          }]
+        });
+      },
+      onApprove: function (data, actions) {
+        return actions.order.capture().then(function (details) {
+          activarLicencia('Anual');
+        });
+      }
+    }).render('#paypal-button-container-anual');
+
+    // Botón para Licencia Permanente (amarillo)
+    paypal.Buttons({
+      style: { layout: 'vertical', color: 'gold', shape: 'pill', label: 'paypal' },
+      createOrder: function (data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: { value: '99.99' },
+            description: 'Licencia Permanente'
+          }]
+        });
+      },
+      onApprove: function (data, actions) {
+        return actions.order.capture().then(function (details) {
+          activarLicencia('Permanente');
+        });
+      }
+    }).render('#paypal-button-container-permanente');
+  </script>
+</body>
+</html>
