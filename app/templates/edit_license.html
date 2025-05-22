@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Licencia</title>
+    <style>
+        #content-area {
+            padding: 30px;
+            background-color: #121212;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: #1e1e1e;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #b0b0b0;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            background: #333;
+            border: none;
+            border-radius: 6px;
+            color: white;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: #1e90ff;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #666;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ff5252;
+            color: white;
+        }
+
+        #msg, #assignMsg {
+            margin: 15px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content-area">
+        <div class="container">
+            <div class="card">
+                <h2>Editar Licencia #{{ licencia.id }}</h2>
+                <div id="msg"></div>
+                <form id="editLicenseForm" method="POST" action="/update_license/{{ licencia.id }}"
+                    data-license-id="{{ licencia.id }}">
+                    <div class="form-group">
+                        <label>Tipo de Licencia:</label>
+                        <select name="tipo" required>
+                            <option value="Mensual" {% if licencia.tipo=='Mensual' %}selected{% endif %}>Mensual</option>
+                            <option value="Anual" {% if licencia.tipo=='Anual' %}selected{% endif %}>Anual</option>
+                            <option value="Permanente" {% if licencia.tipo=='Permanente' %}selected{% endif %}>Permanente</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado:</label>
+                        <select name="estado" required>
+                            <option value="Stock" {% if licencia.estado=='Stock' %}selected{% endif %}>Stock</option>
+                            <option value="Activa" {% if licencia.estado=='Activa' %}selected{% endif %}>Activa</option>
+                            <option value="Suspendida" {% if licencia.estado=='Suspendida' %}selected{% endif %}>Suspendida</option>
+                            <option value="Expirada" {% if licencia.estado=='Expirada' %}selected{% endif %}>Expirada</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha Inicio:</label>
+                        <input type="date" name="fecha_inicio" value="{{ licencia.fecha_inicio }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha Fin (solo si no es permanente):</label>
+                        <input type="date" name="fecha_fin" value="{{ licencia.fecha_fin }}" {% if licencia.tipo=='Permanente' %}disabled{% endif %}>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <button type="button" class="btn btn-danger" id="deleteLicenseBtn"
+                        data-license-id="{{ licencia.id }}">Eliminar Licencia</button>
+                    <a href="#" onclick="loadContent('licensespanel', this)" class="btn btn-secondary">Volver</a>
+                </form>
+            </div>
+
+            {% if licencia.estado == 'Stock' %}
+            <div class="card" style="margin-top: 20px;">
+                <h3>Asignar esta licencia a un usuario</h3>
+                <form id="assignLicenseForm" data-license-id="{{ licencia.id }}">
+                    <div class="form-group">
+                        <label for="usuario_id">ID de Usuario:</label>
+                        <input type="number" name="usuario_id" id="usuario_id" required placeholder="Introduce el ID del usuario">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Asignar Licencia</button>
+                </form>
+                <div id="assignMsg"></div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        // Guardar cambios por AJAX y mostrar mensaje
+        document.getElementById('editLicenseForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const form = this;
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+                .then(r => r.json())
+                .then(data => {
+                    let msg = document.getElementById('msg');
+                    if (data.success) {
+                        msg.innerHTML = "<span style='color:#00e676;'>¡Licencia actualizada correctamente!</span>";
+                    } else {
+                        msg.innerHTML = "<span style='color:#ff5252;'>Error: " + (data.error || "No se pudo actualizar") + "</span>";
+                    }
+                })
+                .catch(() => {
+                    alert("Error al actualizar la licencia.");
+                });
+        });
+
+        // Asignar licencia en stock a usuario por AJAX
+        const assignForm = document.getElementById('assignLicenseForm');
+        if (assignForm) {
+            assignForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const form = this;
+                const licenseId = form.getAttribute('data-license-id');
+                const usuario_id = form.usuario_id.value;
+                fetch(`/assign_stock_license/${licenseId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario_id })
+                })
+                    .then(r => r.json())
+                    .then(data => {
+                        let msg = document.getElementById('assignMsg');
+                        if (data.success) {
+                            msg.innerHTML = "<span style='color:#00e676;'>¡Licencia asignada correctamente!</span>";
+                        } else {
+                            msg.innerHTML = "<span style='color:#ff5252;'>Error: " + (data.error || "No se pudo asignar") + "</span>";
+                        }
+                    })
+                    .catch(() => {
+                        alert("Error al asignar la licencia.");
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

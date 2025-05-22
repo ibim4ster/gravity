@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Búsqueda de Información</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #121212; /* Fondo oscuro */
+  color: white;
+  margin: 0;
+  display: flex;
+  height: 100dvh;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.main-content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.main-content .container {
+  max-width: 600px;
+  background: #1e1e1e;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.main-content .container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+}
+
+.main-content h1 {
+  text-align: center;
+  color: #e0e0e0;
+  margin-bottom: 30px;
+  font-size: 2em;
+}
+
+.main-content form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.main-content label {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.main-content button {
+  background-color: #007bff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background-color 0.3s, transform 0.2s;
+  font-size: 1em;
+  position: relative;
+}
+
+.main-content button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.main-content button {
+  padding: 14px;
+  margin-bottom: 20px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 1em;
+  transition: border-color 0.3s;
+  background: #007bff;
+
+}
+
+.main-content select,
+.main-content input[type="text"] {
+  padding: 14px;
+  margin-bottom: 20px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background: #2c2c2c;
+  color: #ffffff;
+  font-size: 1em;
+  transition: border-color 0.3s;
+}
+
+.main-content select:focus,
+.main-content input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.main-content #spinner {
+  display: none;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid #ffffff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  position: absolute;
+  right: 15px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.main-content .footer {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #cccccc;
+}
+
+.main-content .search-icon {
+  width: 20px;
+  height: 20px;
+  background: url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%23ffffff" viewBox="0 0 24 24"%3E%3Cpath d="M10 2C5.58 2 2 5.58 2 10s3.58 8 8 8c1.76 0 3.38-.59 4.69-1.58l4.61 4.61c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41l-4.61-4.61C18.41 13.38 20 11.76 20 10s-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/%3E%3C/svg%3E')
+    no-repeat center;
+  background-size: contain;
+}
+
+    </style>
+  </head>
+  <body>
+    <!-- Contenido principal -->
+    <div class="main-content">
+      <div class="container">
+        <h1>Búsqueda de Información</h1>
+        <form action="/buscar" method="post" id="search-form">
+          <label for="criterio">Selecciona un criterio de búsqueda:</label>
+          <select name="criterio" id="criterio" required>
+            <option value="Teléfono">Número de Teléfono</option>
+            <option value="Facebook ID">ID de Facebook</option>
+            <option value="Nombre">Nombre</option>
+            <option value="Apellido">Apellido</option>
+            <option value="Ciudad/Pais">Ciudad</option>
+          </select>
+          <label for="termino">Introduce el término de búsqueda:</label>
+          <input type="text" id="termino" name="termino" required />
+          <button type="submit">Buscar</button>
+        </form>
+        <div id="spinner"></div>
+        <!-- Spinner de carga -->
+        <div class="footer">
+          <p>Desarrollado por Ibai Gallego</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showSpinner() {
+        const spinner = document.getElementById("spinner");
+        spinner.style.display = "block"; // Muestra el spinner
+      }
+    </script>
+  </body>
+</html>
