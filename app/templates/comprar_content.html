@@ -142,6 +142,7 @@
   <!-- PayPal SDK SANDBOX -->
   <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
 </head>
+
 <body>
   <h2 class="centered">Compra de Licencias</h2>
   <div class="license-container">
@@ -217,6 +218,10 @@
           } else {
             alert("Error al activar la licencia: " + (data.error || "Desconocido"));
           }
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          alert("Hubo un problema al procesar tu compra. Por favor, inténtalo de nuevo.");
         });
     }
 
@@ -275,4 +280,5 @@
     }).render('#paypal-button-container-permanente');
   </script>
 </body>
+
 </html>

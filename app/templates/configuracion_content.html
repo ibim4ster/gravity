@@ -171,38 +171,38 @@
             <h3>Estado de Licencia:</h3>
             {% set licencia = current_user.licencias|selectattr('estado', 'equalto', 'Activa')|list|first %}
             {% if licencia %}
-                {% if licencia.tipo == 'Mensual' %}
-                <div class="license-card license-card-expired">
-                    <div>
-                        <h4>Tienes una licencia mensual activa</h4>
-                        <p><strong>Fecha de caducidad:</strong> {{ licencia.fecha_fin.strftime('%Y/%m/%d') }}</p>
-                    </div>
-                    <i class="fas fa-credit-card fa-3x"></i>
+            {% if licencia.tipo == 'Mensual' %}
+            <div class="license-card license-card-expired">
+                <div>
+                    <h4>Tienes una licencia mensual activa</h4>
+                    <p><strong>Fecha de caducidad:</strong> {{ licencia.fecha_fin.strftime('%Y/%m/%d') }}</p>
                 </div>
-                {% elif licencia.tipo == 'Anual' %}
-                <div class="license-card license-card-anual">
-                    <div>
-                        <h4>Tienes una licencia anual activa</h4>
-                        <p><strong>Fecha de caducidad:</strong> {{ licencia.fecha_fin.strftime('%Y/%m/%d') }}</p>
-                    </div>
-                    <i class="fas fa-calendar-alt fa-3x"></i>
+                <i class="fas fa-credit-card fa-3x"></i>
+            </div>
+            {% elif licencia.tipo == 'Anual' %}
+            <div class="license-card license-card-anual">
+                <div>
+                    <h4>Tienes una licencia anual activa</h4>
+                    <p><strong>Fecha de caducidad:</strong> {{ licencia.fecha_fin.strftime('%Y/%m/%d') }}</p>
                 </div>
-                {% elif licencia.tipo == 'Permanente' %}
-                <div class="license-card license-card-permanent">
-                    <div>
-                        <h4>Licencia Permanente</h4>
-                    </div>
-                    <i class="fas fa-gem fa-3x"></i>
+                <i class="fas fa-calendar-alt fa-3x"></i>
+            </div>
+            {% elif licencia.tipo == 'Permanente' %}
+            <div class="license-card license-card-permanent">
+                <div>
+                    <h4>Licencia Permanente</h4>
                 </div>
-                {% endif %}
+                <i class="fas fa-gem fa-3x"></i>
+            </div>
+            {% endif %}
             {% else %}
-                <div class="license-card license-card-no-license">
-                    <div>
-                        <h4>No tienes una licencia activa</h4>
-                        <p>Adquiere una licencia para acceder a todas las funciones.</p>
-                    </div>
-                    <i class="fas fa-ban fa-3x"></i>
+            <div class="license-card license-card-no-license">
+                <div>
+                    <h4>No tienes una licencia activa</h4>
+                    <p>Adquiere una licencia para acceder a todas las funciones.</p>
                 </div>
+                <i class="fas fa-ban fa-3x"></i>
+            </div>
             {% endif %}
         </div>
 
@@ -210,7 +210,7 @@
         <div id="configuracion" class="card-container">
             <h2>Configuración de Usuario</h2>
 
-            <form method="POST" action="{{ url_for('update_configuration') }}" id="change-password-form">
+            <form method="POST" action="{{ url_for('user.update_configuration') }}" id="change-password-form">
                 <div class="form-group">
                     <label for="new_password">Nueva Contraseña:</label>
                     <input type="password" id="new_password" name="new_password" required />
@@ -225,9 +225,8 @@
             </form>
 
             <!-- Sección para eliminar la cuenta -->
-            <form method="POST" action="{{ url_for('eliminar_cuenta') }}">
-                <button type="submit" class="btn btn-danger"
-                    onclick="return confirm('¿Estás seguro de que quieres eliminar tu cuenta?')">
+            <form method="POST" action="{{ url_for('user.eliminar_cuenta') }}"> <button type="submit"
+                    class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar tu cuenta?')">
                     Eliminar Cuenta
                 </button>
             </form>

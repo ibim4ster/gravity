@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Gravity | Minimalista</title>
-  <link rel="shortcut icon" type="image/png" href="/static/images/test.png" />
+  <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='test.png') }}" />
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <style>
@@ -429,28 +429,29 @@
   <section class="hero-section">
     <div class="glass-panel" data-aos="zoom-in">
       <div class="logo">
-        <img src="/static/images/logo.png" alt="Gravity Logo">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Gravity Logo">
       </div>
 
       <h1 style="font-size: 2.2rem; margin-bottom: 1rem">
         Sistema de gestión de licencias SaaS
       </h1>
       <p style="color: rgba(255, 255, 255, 0.8); max-width: 600px; margin: 0 auto">
-        Gravity es una aplicación web para gestionar licencias de software tipo SaaS de forma sencilla, eficiente y segura.
+        Gravity es una aplicación web para gestionar licencias de software tipo SaaS de forma sencilla, eficiente y
+        segura.
       </p>
 
       <div class="btn-group">
         {% if current_user.is_authenticated %}
-        <a href="{{ url_for('dashboard') }}" class="btn">
+        <a href="{{ url_for('main.dashboard') }}" class="btn">
           <i class="fas fa-rocket"></i>
           Panel de Control
         </a>
         {% else %}
-        <a href="/login" class="btn">
+        <a href="{{ url_for('auth.login') }}" class="btn">
           <i class="fas fa-sign-in-alt"></i>
           Iniciar Sesión
         </a>
-        <a href="/register" class="btn">
+        <a href="{{ url_for('auth.register') }}" class="btn">
           <i class="fas fa-user-plus"></i>
           Registrarse
         </a>

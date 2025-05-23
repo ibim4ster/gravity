@@ -1,4 +1,4 @@
-from app.extensions import db
+from app.extensions import db, login_manager
 from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -21,6 +21,11 @@ class Usuario(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+# Función necesaria para Flask-Login
+@login_manager.user_loader
+def load_user(user_id):
+    return Usuario.query.get(int(user_id))
 
 class Licencia(db.Model):
     __tablename__ = 'licencia'

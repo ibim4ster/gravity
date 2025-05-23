@@ -170,7 +170,7 @@
 <body>
     <div class="login-card">
         <div class="logo">
-            <img src="/static/images/logo.png" alt="Gravity Logo">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Gravity Logo">
         </div>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -198,7 +198,7 @@
             <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
 
             <div class="register-link text-center">
-                ¿No tienes cuenta? <a href="{{ url_for('register') }}">Regístrate aquí</a>
+                ¿No tienes cuenta? <a href="{{ url_for('auth.register') }}">Regístrate aquí</a>
             </div>
         </form>
     </div>

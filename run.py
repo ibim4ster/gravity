@@ -10,7 +10,7 @@ from app.routes.licenses import licenses as licenses_bp
 from app.routes.search import search as search_bp
 from app.routes.user import user as user_bp
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='app/templates', static_folder='app/static')  # Especificar la ruta de las plantillas y archivos estáticos
 app.config.from_object(Config)
 
 # Inicializar extensiones
