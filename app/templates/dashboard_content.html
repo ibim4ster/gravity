@@ -1,166 +1,327 @@
 <style>
   :root {
-    --primary: #00a1ab;
-    --bg: #15161a;
-    --card-bg: #23232b;
-    --accent: #00a1ab;
-    --text: #f5f6fa;
-    --muted: #b0b0b0;
-    --danger: #ff5252;
-    --success: #00e676;
+    /* Colores principales - Azules inspirados en start_page */
+    --primary: #1a237e;
+    --primary-light: #3949ab;
+    --primary-dark: #0d1642;
+    --accent: #3d5afe;
+    
+    /* Fondo y superficies */
+    --bg: #0a0e1a;
+    --card-bg: rgba(16, 23, 41, 0.7);
+    --card-bg-hover: rgba(23, 32, 56, 0.8);
+    --overlay: rgba(10, 14, 26, 0.6);
+    
+    /* Texto */
+    --text: #f8f9fc;
+    --text-secondary: #c7d0f0;
+    --muted: #8792bd;
+    
+    /* Estados */
+    --danger: #f44336;
+    --success: #00c853;
+    --warning: #ff9800;
+    --info: #2196f3;
   }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Roboto', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
+  
   .welcome-header {
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 40px;
+    position: relative;
   }
+  
   .welcome-title {
-    font-size: 2.2rem;
-    margin-bottom: 0.3em;
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 0.2em;
     color: var(--text);
+    letter-spacing: -0.03em;
+    background: linear-gradient(120deg, var(--text) 0%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
+  
   .subtitle {
     color: var(--muted);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     margin-bottom: 1.5em;
+    font-weight: 400;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
   }
+  
   .dashboard-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(12, 1fr);
     grid-template-rows: auto auto auto;
-    gap: 32px;
-    max-width: 1100px;
+    gap: 24px;
+    max-width: 1200px;
     margin: 0 auto;
-    align-items: stretch;
+    padding: 0 16px;
   }
-  .welcome-card { grid-column: 1 / 2; grid-row: 1 / 2; }
-  .slogan-card { grid-column: 2 / 3; grid-row: 1 / 2; }
-  .help-card { grid-column: 1 / 2; grid-row: 2 / 3; }
-  .license-card { grid-column: 2 / 3; grid-row: 2 / 3; }
-  .quickstart-card { grid-column: 1 / 3; grid-row: 3 / 4; }
+  
+  .welcome-card { grid-column: 1 / 7; grid-row: 1 / 2; }
+  .slogan-card { grid-column: 7 / 13; grid-row: 1 / 2; }
+  .help-card { grid-column: 1 / 7; grid-row: 2 / 3; }
+  .license-card { grid-column: 7 / 13; grid-row: 2 / 3; }
+  .quickstart-card { grid-column: 1 / 13; grid-row: 3 / 4; }
 
   .card {
     background: var(--card-bg);
-    border-radius: 18px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.45);
-    padding: 28px 24px 24px 24px;
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    padding: 28px;
     min-width: 0;
     margin-bottom: 0;
-    transition: transform 0.15s, box-shadow 0.15s;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
   }
+  
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
   .card:hover {
-    transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.55);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    background: var(--card-bg-hover);
   }
+  
+  .card:hover::before {
+    opacity: 1;
+  }
+  
   .card-header {
     display: flex;
     align-items: center;
-    margin-bottom: 18px;
+    margin-bottom: 24px;
+    position: relative;
   }
+  
   .card-icon {
-    font-size: 2rem;
-    color: var(--accent);
-    margin-right: 12px;
+    font-size: 1.8rem;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 12px;
+    margin-right: 16px;
+    color: white;
+    box-shadow: 0 4px 12px rgba(61, 90, 254, 0.2);
   }
+  
   .card h3 {
     margin: 0;
-    font-size: 1.25rem;
-    color: var(--primary);
-    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--text);
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
+  
   .features-grid {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    margin-top: 8px;
   }
+  
   .feature-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    background: #18181f;
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: var(--text);
-    font-size: 1rem;
-    transition: background 0.2s;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    padding: 14px 16px;
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.03);
   }
+  
   .feature-item:hover {
-    background: #23232b;
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateX(4px);
+    border-color: rgba(255, 255, 255, 0.08);
   }
+  
   .feature-icon {
     color: var(--accent);
-    font-size: 1.2rem;
+    font-size: 1.25rem;
+    min-width: 24px;
+    text-align: center;
   }
+  
   .license-content {
     font-size: 1.1rem;
-    color: var(--text);
-    margin-top: 10px;
+    color: var(--text-secondary);
+    margin-top: 16px;
+    line-height: 1.7;
   }
+  
   .license-card-permanent {
     color: var(--success);
-    font-weight: bold;
+    font-weight: 600;
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(0, 200, 83, 0.15);
+    border-radius: 6px;
+    margin-top: 8px;
   }
+  
   .license-card-no-license {
     color: var(--danger);
-    font-weight: bold;
+    font-weight: 600;
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(244, 67, 54, 0.15);
+    border-radius: 6px;
+    margin-top: 8px;
   }
+  
+  .help-content {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+  
+  .help-content strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  
   .quickstart-card .guide-steps {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 16px 0 0 0;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
   }
+  
   .quickstart-card .step-item {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 10px;
-    font-size: 1.05rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 24px 20px;
+    flex: 1;
+    min-width: 200px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
+  
+  .quickstart-card .step-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-4px);
+  }
+  
   .quickstart-card .step-number {
-    background: var(--primary);
-    color: #fff;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
     border-radius: 50%;
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    margin-right: 12px;
-    font-size: 1rem;
+    margin-bottom: 16px;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(61, 90, 254, 0.2);
   }
-  @media (max-width: 900px) {
+  
+  .quickstart-card .step-text {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  
+  .slogan-content {
+    font-size: 1.3rem;
+    color: var(--text);
+    font-weight: 600;
+    margin-top: 16px;
+    line-height: 1.5;
+    background: linear-gradient(120deg, var(--accent), #5e35b1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .welcome-card { grid-column: 1 / 7; }
+    .slogan-card { grid-column: 7 / 13; }
+    .help-card { grid-column: 1 / 7; }
+    .license-card { grid-column: 7 / 13; }
+    .quickstart-card { grid-column: 1 / 13; }
+  }
+  
+  @media (max-width: 768px) {
     .dashboard-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
+      grid-template-columns: 1fr;
+      padding: 0 12px;
     }
+    
+    .welcome-card,
+    .slogan-card,
+    .help-card,
+    .license-card,
+    .quickstart-card {
+      grid-column: 1 / 2;
+    }
+    
+    .welcome-card { grid-row: 1 / 2; }
+    .slogan-card { grid-row: 2 / 3; }
+    .help-card { grid-row: 3 / 4; }
+    .license-card { grid-row: 4 / 5; }
+    .quickstart-card { grid-row: 5 / 6; }
+    
+    .welcome-title {
+      font-size: 2rem;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+    }
+    
     .card {
-      min-width: 90vw;
-      max-width: 98vw;
+      padding: 24px 20px;
     }
   }
 </style>
+
 <div class="welcome-header">
-  <h2 class="welcome-title">Bienvenido/a, {{ current_user.email }}!</h2>
-  <p class="subtitle">Gestión inteligente de información empresarial</p>
+  <h2 class="welcome-title">Bienvenido/a, {{ current_user.email }}</h2>
+  <p class="subtitle">Sistema de gestion de licencias tipo SaaS</p>
 </div>
 
 <div class="dashboard-container">
   <!-- Tarjeta de bienvenida -->
   <div class="card welcome-card">
     <div class="card-header">
-      <span class="card-icon"><i class="fas fa-user"></i></span>
-      <h3>Tu cuenta</h3>
+      <div class="card-icon"><i class="fas fa-user"></i></div>
+      <h3>Tu perfil</h3>
     </div>
     <div class="features-grid">
       <div class="feature-item">
@@ -177,46 +338,48 @@
   <!-- Tarjeta de eslogan -->
   <div class="card slogan-card">
     <div class="card-header">
-      <span class="card-icon"><i class="fas fa-bolt"></i></span>
+      <div class="card-icon"><i class="fas fa-bolt"></i></div>
       <h3>Gravity</h3>
     </div>
-    <div style="font-size:1.15rem; color:var(--accent); font-weight:600; margin-top: 10px;">
-      Gravity, el mejor sistema de ventas de licencias del mercado
+    <div class="slogan-content">
+      La plataforma líder en gestión de licencias empresariales
     </div>
   </div>
 
   <!-- Tarjeta de ayuda -->
   <div class="card help-card">
     <div class="card-header">
-      <span class="card-icon"><i class="fas fa-question-circle"></i></span>
-      <h3>Ayuda y Soporte</h3>
+      <div class="card-icon"><i class="fas fa-question-circle"></i></div>
+      <h3>Soporte y asistencia</h3>
     </div>
-    <div style="font-size:1.05rem; color:var(--muted);">
-      Disponemos de una pestaña de <strong>Guías</strong> por si quiere ver cómo se utiliza algún apartado de la aplicación o le surge alguna duda.<br><br>
-      También tenemos los <strong>Tickets / Mensajes</strong> por si el usuario tiene alguna duda más compleja que requiera de soporte.<br><br>
-      Por último, tenemos el <strong>ChatBot de IA</strong>: se le puede consultar cualquier tipo de duda relacionada con la aplicación que la resolverá muy rápido, sin necesidad de abrir un ticket de soporte y para cuestiones que no requieran de evaluación humana.
+    <div class="help-content">
+      <p>Disponemos de múltiples canales de ayuda para que puedas resolver cualquier duda:</p>
+      <p><strong>• Guías completas</strong> para aprender a utilizar todas las funcionalidades</p>
+      <p><strong>• Sistema de tickets</strong> para consultas específicas que requieran atención personalizada</p>
+      <p><strong>• ChatBot de IA</strong> disponible 24/7 para resolución inmediata de consultas técnicas</p>
     </div>
   </div>
 
   <!-- Tarjeta de licencia -->
   <div class="card license-card">
     <div class="card-header">
-      <span class="card-icon"><i class="fas fa-certificate"></i></span>
-      <h3>Licencia</h3>
+      <div class="card-icon"><i class="fas fa-certificate"></i></div>
+      <h3>Estado de licencia</h3>
     </div>
     <div class="license-content">
       {% set licencia = current_user.licencias|selectattr('estado', 'equalto', 'Activa')|list|first %}
       {% if licencia %}
         <p>
-          Tipo: <strong>{{ licencia.tipo }}</strong><br>
+          <strong>Tipo:</strong> {{ licencia.tipo }}<br>
           {% if licencia.tipo != 'Permanente' %}
-            Válida hasta: <strong>{{ licencia.fecha_fin.strftime('%d/%m/%Y') }}</strong>
+            <strong>Válida hasta:</strong> {{ licencia.fecha_fin.strftime('%d/%m/%Y') }}
           {% else %}
             <span class="license-card-permanent">Licencia permanente</span>
           {% endif %}
         </p>
       {% else %}
-        <span class="license-card-no-license">No tienes licencia activa</span>
+        <p>Actualmente no dispones de una licencia activa en tu cuenta.</p>
+        <span class="license-card-no-license">Sin licencia activa</span>
       {% endif %}
     </div>
   </div>
@@ -224,13 +387,22 @@
   <!-- Guía rápida -->
   <div class="card quickstart-card">
     <div class="card-header">
-      <span class="card-icon"><i class="fas fa-rocket"></i></span>
-      <h3>Guía rápida</h3>
+      <div class="card-icon"><i class="fas fa-rocket"></i></div>
+      <h3>Primeros pasos</h3>
     </div>
-    <ol class="guide-steps">
-      <li class="step-item"><span class="step-number">1</span> Compra una licencia</li>
-      <li class="step-item"><span class="step-number">2</span> Accede a la búsqueda de información</li>
-      <li class="step-item"><span class="step-number">3</span> ¡Disfruta de Gravity!</li>
-    </ol>
+    <div class="guide-steps">
+      <div class="step-item">
+        <span class="step-number">1</span>
+        <span class="step-text">Adquiere una licencia</span>
+      </div>
+      <div class="step-item">
+        <span class="step-number">2</span>
+        <span class="step-text">Explora las herramientas de búsqueda</span>
+      </div>
+      <div class="step-item">
+        <span class="step-number">3</span>
+        <span class="step-text">Comienza a utilizar Gravity</span>
+      </div>
+    </div>
   </div>
 </div>

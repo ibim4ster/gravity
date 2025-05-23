@@ -65,7 +65,19 @@
     /* Evitar que los estilos de la sección 'Búsqueda' o 'Configuración' afecten los otros elementos */
     .sidebar a.active,
     .sidebar a:hover {
-      background-color: rgb(45, 45, 226);
+      background-color: #1a237e;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar a:hover {
+      background-color: rgba(26, 35, 126, 0.8);
+      /* Versión más clara para hover */
+      transform: translateX(5px);
+    }
+
+    .sidebar .active {
+      background-color: #1a237e;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     .sidebar a i {
@@ -233,19 +245,16 @@
     }
 
     .modal-buttons .confirm-btn {
-      background-color: #28a745;
-      /* Verde para botón de confirmación */
+      background-color: #1a237e;
     }
 
     .modal-buttons .confirm-btn:hover {
-      background-color: #218838;
+      background-color: #3d5afe;
       transform: scale(1.03);
-      /* Ligero efecto de zoom en hover */
     }
 
     .modal-buttons .cancel-btn {
       background-color: #dc3545;
-      /* Rojo para el botón de cancelación */
     }
 
     .modal-buttons .cancel-btn:hover {
@@ -471,68 +480,68 @@
     }
 
     // Función para renderizar los botones de PayPal
-function renderPayPalButtons() {
-  if (document.getElementById('paypal-button-container-mensual')) {
-    paypal.Buttons({
-      style: { layout: 'vertical', color: 'silver', shape: 'pill', label: 'paypal' },
-      createOrder: function (data, actions) {
-        return actions.order.create({
-          purchase_units: [{
-            amount: { value: '9.99' },
-            description: 'Licencia Mensual'
-          }]
-        });
-      },
-      onApprove: function (data, actions) {
-        return actions.order.capture().then(function (details) {
-          activarLicencia('Mensual');
-        });
+    function renderPayPalButtons() {
+      if (document.getElementById('paypal-button-container-mensual')) {
+        paypal.Buttons({
+          style: { layout: 'vertical', color: 'silver', shape: 'pill', label: 'paypal' },
+          createOrder: function (data, actions) {
+            return actions.order.create({
+              purchase_units: [{
+                amount: { value: '9.99' },
+                description: 'Licencia Mensual'
+              }]
+            });
+          },
+          onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+              activarLicencia('Mensual');
+            });
+          }
+        }).render('#paypal-button-container-mensual');
       }
-    }).render('#paypal-button-container-mensual');
-  }
 
-  // Añade este bloque para la licencia anual
-  if (document.getElementById('paypal-button-container-anual')) {
-    paypal.Buttons({
-      style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'paypal' },
-      createOrder: function (data, actions) {
-        return actions.order.create({
-          purchase_units: [{
-            amount: { value: '99.99' },
-            description: 'Licencia Anual'
-          }]
-        });
-      },
-      onApprove: function (data, actions) {
-        return actions.order.capture().then(function (details) {
-          activarLicencia('Anual');
-        });
+      // Añade este bloque para la licencia anual
+      if (document.getElementById('paypal-button-container-anual')) {
+        paypal.Buttons({
+          style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'paypal' },
+          createOrder: function (data, actions) {
+            return actions.order.create({
+              purchase_units: [{
+                amount: { value: '99.99' },
+                description: 'Licencia Anual'
+              }]
+            });
+          },
+          onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+              activarLicencia('Anual');
+            });
+          }
+        }).render('#paypal-button-container-anual');
       }
-    }).render('#paypal-button-container-anual');
-  }
 
-  if (document.getElementById('paypal-button-container-permanente')) {
-    paypal.Buttons({
-      style: { layout: 'vertical', color: 'gold', shape: 'pill', label: 'paypal' },
-      createOrder: function (data, actions) {
-        return actions.order.create({
-          purchase_units: [{
-            amount: { value: '99.99' },
-            description: 'Licencia Permanente'
-          }]
-        });
-      },
-      onApprove: function (data, actions) {
-        return actions.order.capture().then(function (details) {
-          activarLicencia('Permanente');
-        });
+      if (document.getElementById('paypal-button-container-permanente')) {
+        paypal.Buttons({
+          style: { layout: 'vertical', color: 'gold', shape: 'pill', label: 'paypal' },
+          createOrder: function (data, actions) {
+            return actions.order.create({
+              purchase_units: [{
+                amount: { value: '299.99' },
+                description: 'Licencia Permanente'
+              }]
+            });
+          },
+          onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+              activarLicencia('Permanente');
+            });
+          }
+        }).render('#paypal-button-container-permanente');
       }
-    }).render('#paypal-button-container-permanente');
-  }
-}
+    }
 
     function activarLicencia(tipo) {
-      fetch('/activar_licencia_paypal', {
+      fetch('/licenses/activate_paypal', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ tipo: tipo })
@@ -540,7 +549,7 @@ function renderPayPalButtons() {
         .then(res => res.json())
         .then(data => {
           if (data.success) {
-            window.location.href = "/compra_exitosa";
+            window.location.href = "/licenses/compra_exitosa";
           } else {
             alert("Error al activar la licencia: " + (data.error || "Desconocido"));
           }
@@ -594,7 +603,7 @@ function renderPayPalButtons() {
         }
 
         if (confirm("¿Estás seguro de que deseas eliminar este usuario?")) {
-          fetch(`/delete_user/${userId}`, {
+          fetch(`/admin/delete_user/${userId}`, {
             method: "DELETE",
           })
             .then((response) => {
@@ -620,7 +629,7 @@ function renderPayPalButtons() {
       }
     });
 
-    // Manejar el envío del formulario de edición de usuario
+    // Maneja el envío del formulario de edición de usuario
     document.addEventListener("submit", function (event) {
       if (event.target.matches("#editUserForm")) {
         event.preventDefault();
@@ -628,7 +637,7 @@ function renderPayPalButtons() {
         const userId = event.target.dataset.userId;
         const formData = new FormData(event.target);
 
-        fetch(`/update_user/${userId}`, {
+        fetch(`/admin/update_user/${userId}`, {
           method: "POST",
           body: formData,
         })
@@ -672,7 +681,7 @@ function renderPayPalButtons() {
             return;
           }
 
-          fetch(`/assign_license/${userId}`, {
+          fetch(`/licenses/assign/${userId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ tipo: tipo, fecha_fin: fechaFin })
@@ -705,7 +714,7 @@ function renderPayPalButtons() {
         revokeBtn.addEventListener('click', function () {
           const userId = document.getElementById('editUserForm').dataset.userId;
           if (confirm("¿Seguro que quieres quitar la licencia activa?")) {
-            fetch(`/revoke_license/${userId}`, {
+            fetch(`/licenses/revoke/${userId}`, {  // URL CORREGIDA
               method: 'POST'
             })
               .then(response => response.json())
@@ -731,9 +740,9 @@ function renderPayPalButtons() {
         const licenseId = event.target.dataset.licenseId;
         const formData = new FormData(event.target);
 
-        fetch(`/update_license/${licenseId}`, {
+        fetch(`/licenses/update/${licenseId}`, {  // URL CORREGIDA
           method: "POST",
-          body: formData,
+          body: formData
         })
           .then((response) => response.json())
           .then((data) => {
@@ -756,7 +765,7 @@ function renderPayPalButtons() {
       }
     });
 
-    // Manejar la eliminación de licencia
+    // Manejar la eliminación de licencia desde el botón deleteLicenseBtn
     document.addEventListener("click", function (event) {
       if (event.target.matches("#deleteLicenseBtn")) {
         const licenseId = event.target.dataset.licenseId;
@@ -766,7 +775,7 @@ function renderPayPalButtons() {
         }
 
         if (confirm("¿Estás seguro de que deseas eliminar esta licencia?")) {
-          fetch(`/delete_license/${licenseId}`, {
+          fetch(`/licenses/delete/${licenseId}`, {  // URL CORREGIDA
             method: "POST",
           })
             .then((response) => response.json())
@@ -788,7 +797,7 @@ function renderPayPalButtons() {
       }
     });
 
-    // Eliminar licencia desde licesespanel.html
+    // Eliminar licencia desde licesespanel.html usando btn-delete
     document.addEventListener("click", function (event) {
       if (event.target.matches(".btn-delete") || event.target.closest(".btn-delete")) {
         const btn = event.target.closest(".btn-delete");
@@ -798,7 +807,7 @@ function renderPayPalButtons() {
           return;
         }
         if (confirm("¿Estás seguro de que deseas eliminar esta licencia?")) {
-          fetch(`/delete_license/${licenseId}`, {
+          fetch(`/licenses/delete/${licenseId}`, {  // URL CORREGIDA
             method: "POST",
           })
             .then((response) => response.json())
@@ -826,7 +835,7 @@ function renderPayPalButtons() {
         event.preventDefault();
         const formData = new FormData(event.target);
 
-        fetch("/create_license", {
+        fetch("/licenses/create", {  // URL CORREGIDA
           method: "POST",
           body: formData,
         })
@@ -851,29 +860,6 @@ function renderPayPalButtons() {
       }
     });
 
-    // Quitar licencia activa
-    const revokeBtn = document.getElementById('revokeLicenseBtn');
-    if (revokeBtn) {
-      revokeBtn.addEventListener('click', function () {
-        const userId = document.getElementById('editUserForm').dataset.userId;
-        if (confirm("¿Seguro que quieres quitar la licencia activa?")) {
-          fetch(`/revoke_license/${userId}`, {
-            method: 'POST'
-          })
-            .then(response => response.json())
-            .then(data => {
-              if (data.success) {
-                loadContent('edit_user/' + userId);
-              } else {
-                alert('Error: ' + (data.error || 'No se pudo revocar la licencia.'));
-              }
-            })
-            .catch(error => {
-              alert('Error al revocar licencia.');
-            });
-        }
-      });
-    }
     // Inicializar la búsqueda de licencias
     function initLicenseSearch() {
       const searchInput = document.getElementById("searchLicenses");

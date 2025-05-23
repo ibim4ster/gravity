@@ -170,7 +170,7 @@
       <div class="description">
         Acceso completo a la búsqueda de datos durante 1 año.
       </div>
-      <div class="price">$49.99</div>
+      <div class="price">$99.99</div>
       <p>Duración: 1 año</p>
       <div class="cta-button">
         <div id="paypal-button-container-anual"></div>
@@ -185,7 +185,7 @@
       <div class="description">
         Acceso completo a la búsqueda de datos para siempre.
       </div>
-      <div class="price">$99.99</div>
+      <div class="price">$299.99</div>
       <p>Duración: Para siempre</p>
       <div class="cta-button">
         <div id="paypal-button-container-permanente"></div>
@@ -204,7 +204,7 @@
   </div>
   <script>
     function activarLicencia(tipo) {
-      fetch('/activar_licencia_paypal', {
+      fetch('/licenses/activate_paypal', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -214,7 +214,7 @@
         .then(res => res.json())
         .then(data => {
           if (data.success) {
-            window.location.href = "/compra_exitosa";
+            window.location.href = "/licenses/compra_exitosa";  // Corregir esta URL
           } else {
             alert("Error al activar la licencia: " + (data.error || "Desconocido"));
           }
@@ -249,7 +249,7 @@
       createOrder: function (data, actions) {
         return actions.order.create({
           purchase_units: [{
-            amount: { value: '49.99' },
+            amount: { value: '99.99' },
             description: 'Licencia Anual'
           }]
         });
@@ -267,7 +267,7 @@
       createOrder: function (data, actions) {
         return actions.order.create({
           purchase_units: [{
-            amount: { value: '99.99' },
+            amount: { value: '299.99' },
             description: 'Licencia Permanente'
           }]
         });

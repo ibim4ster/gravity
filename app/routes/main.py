@@ -32,6 +32,23 @@ def get_content(section):
             return 'Acceso denegado', 403
         users = Usuario.query.all()
         return render_template('admin_panel.html', users=users)
+    elif section == 'licensespanel':
+        if current_user.rol != 'Admin':
+            return 'Acceso denegado', 403
+        from app.models.models import Licencia
+        licencias = Licencia.query.order_by(Licencia.fecha_creacion.desc()).all()
+        return render_template('licensespanel.html', licencias=licencias)
+    elif section == 'create_license':  
+        if current_user.rol != 'Admin':
+            return 'Acceso denegado', 403
+        return render_template('create_license.html')
+    elif section.startswith('edit_license/'):
+        if current_user.rol != 'Admin':
+            return 'Acceso denegado', 403
+        from app.models.models import Licencia  # Añadir esta línea
+        license_id = int(section.split('/')[-1])
+        licencia = Licencia.query.get_or_404(license_id)
+        return render_template('edit_license.html', licencia=licencia)
     elif section.startswith('edit_user/'):
         user_id = int(section.split('/')[-1])
         user = Usuario.query.get_or_404(user_id)
@@ -47,7 +64,3 @@ def comprar():
     if request.method == 'POST':
         return redirect(url_for('main.compra_exitosa'))
     return render_template('comprar_content.html')
-
-@main.route('/compra_exitosa', methods=['GET'])
-def compra_exitosa():
-    return render_template('compra_exitosa.html')

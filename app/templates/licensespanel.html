@@ -46,8 +46,8 @@
           <td>{{ lic.fecha_inicio.strftime('%d/%m/%Y') if lic.fecha_inicio else '-' }}</td>
           <td>{{ lic.fecha_fin.strftime('%d/%m/%Y') if lic.fecha_fin else '-' }}</td>
           <td>
-            <a href="#" onclick="loadContent('edit_license/{{ lic.id }}', this)" class="btn-edit">
-              <i class="fas fa-edit"></i> Editar
+            <a href="#" onclick="loadContent('edit_license/{{ lic.id }}', this)" class="btn-edit"> <i
+                class="fas fa-edit"></i> Editar
             </a>
             <button type="button" class="btn-delete" data-license-id="{{ lic.id }}">
               <i class="fas fa-trash"></i> Eliminar

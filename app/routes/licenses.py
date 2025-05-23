@@ -52,7 +52,7 @@ def activar_licencia_paypal():
     else:
         licencia = Licencia(
             tipo='Permanente',
-            precio=99.99,
+            precio=299.99,
             fecha_creacion=date.today(),
             fecha_inicio=date.today(),
             fecha_fin=None,
@@ -82,9 +82,9 @@ def assign_license(user_id):
     if tipo == 'Mensual':
         precio = 9.99
     elif tipo == 'Anual':
-        precio = 49.99
-    elif tipo == 'Permanente':
         precio = 99.99
+    elif tipo == 'Permanente':
+        precio = 299.99
     else:
         precio = 0
 
@@ -115,6 +115,12 @@ def assign_license(user_id):
     db.session.add(nueva_licencia)
     db.session.commit()
     return jsonify({'success': True})
+
+@licenses.route('/compra_exitosa')
+@login_required
+def compra_exitosa():
+    """Página de compra exitosa"""
+    return render_template('compra_exitosa.html')
 
 @licenses.route('/revoke/<int:user_id>', methods=['POST'])
 @login_required
@@ -167,9 +173,9 @@ def create_license_post():
         if tipo == 'Mensual':
             precio = 9.99
         elif tipo == 'Anual':
-            precio = 49.99
-        elif tipo == 'Permanente':
             precio = 99.99
+        elif tipo == 'Permanente':
+            precio = 299.99
         else:
             precio = 0
 

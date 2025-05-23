@@ -69,7 +69,8 @@
             color: white;
         }
 
-        #msg, #assignMsg {
+        #msg,
+        #assignMsg {
             margin: 15px 0;
         }
     </style>
@@ -81,14 +82,16 @@
             <div class="card">
                 <h2>Editar Licencia #{{ licencia.id }}</h2>
                 <div id="msg"></div>
-                <form id="editLicenseForm" method="POST" action="/update_license/{{ licencia.id }}"
-                    data-license-id="{{ licencia.id }}">
+                <form id="editLicenseForm" method="POST" action="/licenses/update/{{ licencia.id }}"
+                    data-license-id="{{ licencia.id }}"> data-license-id="{{ licencia.id }}">
                     <div class="form-group">
                         <label>Tipo de Licencia:</label>
                         <select name="tipo" required>
-                            <option value="Mensual" {% if licencia.tipo=='Mensual' %}selected{% endif %}>Mensual</option>
+                            <option value="Mensual" {% if licencia.tipo=='Mensual' %}selected{% endif %}>Mensual
+                            </option>
                             <option value="Anual" {% if licencia.tipo=='Anual' %}selected{% endif %}>Anual</option>
-                            <option value="Permanente" {% if licencia.tipo=='Permanente' %}selected{% endif %}>Permanente</option>
+                            <option value="Permanente" {% if licencia.tipo=='Permanente' %}selected{% endif %}>
+                                Permanente</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -96,17 +99,23 @@
                         <select name="estado" required>
                             <option value="Stock" {% if licencia.estado=='Stock' %}selected{% endif %}>Stock</option>
                             <option value="Activa" {% if licencia.estado=='Activa' %}selected{% endif %}>Activa</option>
-                            <option value="Suspendida" {% if licencia.estado=='Suspendida' %}selected{% endif %}>Suspendida</option>
-                            <option value="Expirada" {% if licencia.estado=='Expirada' %}selected{% endif %}>Expirada</option>
+                            <option value="Suspendida" {% if licencia.estado=='Suspendida' %}selected{% endif %}>
+                                Suspendida</option>
+                            <option value="Expirada" {% if licencia.estado=='Expirada' %}selected{% endif %}>Expirada
+                            </option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Fecha Inicio:</label>
-                        <input type="date" name="fecha_inicio" value="{{ licencia.fecha_inicio }}">
+                        <input type="date" name="fecha_inicio"
+                            value="{{ licencia.fecha_inicio.strftime('%Y-%m-%d') if licencia.fecha_inicio else '' }}">
                     </div>
                     <div class="form-group">
                         <label>Fecha Fin (solo si no es permanente):</label>
-                        <input type="date" name="fecha_fin" value="{{ licencia.fecha_fin }}" {% if licencia.tipo=='Permanente' %}disabled{% endif %}>
+                        <input type="date" name="fecha_fin"
+                            value="{{ licencia.fecha_fin.strftime('%Y-%m-%d') if licencia.fecha_fin else '' }}" {% if
+                            licencia.tipo=='Permanente' %}disabled{% endif %}> licencia.tipo=='Permanente' %}disabled{%
+                        endif %}>
                     </div>
                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                     <button type="button" class="btn btn-danger" id="deleteLicenseBtn"
@@ -121,7 +130,8 @@
                 <form id="assignLicenseForm" data-license-id="{{ licencia.id }}">
                     <div class="form-group">
                         <label for="usuario_id">ID de Usuario:</label>
-                        <input type="number" name="usuario_id" id="usuario_id" required placeholder="Introduce el ID del usuario">
+                        <input type="number" name="usuario_id" id="usuario_id" required
+                            placeholder="Introduce el ID del usuario">
                     </div>
                     <button type="submit" class="btn btn-primary">Asignar Licencia</button>
                 </form>
@@ -162,7 +172,7 @@
                 const form = this;
                 const licenseId = form.getAttribute('data-license-id');
                 const usuario_id = form.usuario_id.value;
-                fetch(`/assign_stock_license/${licenseId}`, {
+                fetch(`/licenses/assign_stock/${licenseId}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ usuario_id })
@@ -183,4 +193,5 @@
         }
     </script>
 </body>
+
 </html>
