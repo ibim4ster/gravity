@@ -7,234 +7,420 @@
     <title>Panel de Usuario</title>
     <link rel="stylesheet" href="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous" />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: white;
-            margin: 0;
-            display: flex;
-            transition: background-color 0.3s, color 0.3s;
+        :root {
+            /* Colores principales - Azules inspirados en dashboard */
+            --primary: #1a237e;
+            --primary-light: #3949ab;
+            --primary-dark: #0d1642;
+            --accent: #3d5afe;
+
+            /* Fondo y superficies */
+            --bg: #0a0e1a;
+            --card-bg: rgba(16, 23, 41, 0.7);
+            --card-bg-hover: rgba(23, 32, 56, 0.8);
+            --overlay: rgba(10, 14, 26, 0.6);
+
+            /* Texto */
+            --text: #f8f9fc;
+            --text-secondary: #c7d0f0;
+            --muted: #8792bd;
+
+            /* Estados */
+            --danger: #f44336;
+            --success: #00c853;
+            --warning: #ff9800;
+            --info: #2196f3;
         }
 
-        #content-area {
+        .config-container {
+            max-width: 900px;
+            margin: 0 auto;
             padding: 20px;
-            background-color: #121212;
-            color: white;
         }
 
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            letter-spacing: -0.03em;
+            background: linear-gradient(120deg, var(--text) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            padding: 28px;
+            margin-bottom: 24px;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .card-icon {
+            font-size: 1.8rem;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 12px;
+            margin-right: 16px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(61, 90, 254, 0.2);
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: var(--text);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        /* Estilos para las tarjetas de licencia */
+        .license-status {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .license-status-content {
+            flex: 1;
+        }
+
+        .license-status h4 {
+            margin: 0 0 8px 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .license-status p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .license-status-icon {
+            font-size: 2.5rem;
+            margin-left: 20px;
+            opacity: 0.9;
+        }
+
+        .license-permanent {
+            background: linear-gradient(135deg, rgba(0, 200, 83, 0.15), rgba(0, 200, 83, 0.05));
+            border: 1px solid rgba(0, 200, 83, 0.2);
+        }
+
+        .license-permanent h4 {
+            color: var(--success);
+        }
+
+        .license-monthly {
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.15), rgba(33, 150, 243, 0.05));
+            border: 1px solid rgba(33, 150, 243, 0.2);
+        }
+
+        .license-monthly h4 {
+            color: var(--info);
+        }
+
+        .license-annual {
+            background: linear-gradient(135deg, rgba(61, 90, 254, 0.15), rgba(61, 90, 254, 0.05));
+            border: 1px solid rgba(61, 90, 254, 0.2);
+        }
+
+        .license-annual h4 {
+            color: var(--accent);
+        }
+
+        .license-none {
+            background: linear-gradient(135deg, rgba(244, 67, 54, 0.15), rgba(244, 67, 54, 0.05));
+            border: 1px solid rgba(244, 67, 54, 0.2);
+        }
+
+        .license-none h4 {
+            color: var(--danger);
+        }
+
+        /* Formularios */
         .form-group {
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
         input[type="password"],
         input[type="email"] {
-            width: 99%;
-            padding: 10px;
-            border: 1px solid #444;
-            border-radius: 5px;
-            background-color: #181a1b;
-            color: white;
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.2s ease;
         }
 
-        button {
-            background-color: #4caf50;
-            color: white;
+        input[type="password"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(61, 90, 254, 0.2);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
             border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
-            margin-top: 10px;
-            transition: background-color 0.3s;
+            transition: all 0.2s ease;
+            text-align: center;
+            margin-right: 10px;
         }
 
-        button:hover {
-            background-color: #45a049;
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 4px 12px rgba(61, 90, 254, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(61, 90, 254, 0.3);
         }
 
         .btn-danger {
-            background-color: #dc3545;
+            background: linear-gradient(135deg, var(--danger), #ff5252);
+            color: white;
+            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.2);
         }
 
         .btn-danger:hover {
-            background-color: #c82333;
-        }
-
-        .card-container {
-            margin-bottom: 20px;
-            padding: 20px;
-            background-color: #181a1b;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .license-card {
-            padding: 20px;
-            background-color: #1a1a1a;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .license-card h4 {
-            margin: 0;
-            font-size: 18px;
-            color: white;
-        }
-
-        .license-card-permanent {
-            background: linear-gradient(135deg, #6A0572, #A4508B, #FF8FB1);
-            color: #ffffff;
-            border: 2px solid #A4508B;
-            box-shadow: 0 4px 8px rgba(170, 80, 139, 0.4);
-            border-radius: 8px;
-            padding: 15px;
-        }
-
-        .license-card-expired {
-            background: linear-gradient(135deg, #3B5998, #4C4C4C, #909090);
-            color: #ffffff;
-            border: 2px solid #4C4C4C;
-            box-shadow: 0 4px 6px rgba(60, 60, 60, 0.4);
-            border-radius: 8px;
-            padding: 15px;
-        }
-
-        .license-card-anual {
-            background: linear-gradient(135deg, #1e90ff, #00bfff, #87cefa);
-            color: #ffffff;
-            border: 2px solid #00bfff;
-            box-shadow: 0 4px 8px rgba(30, 144, 255, 0.3);
-            border-radius: 8px;
-            padding: 15px;
-        }
-
-        .license-card-no-license {
-            background: linear-gradient(135deg, #8B0000, #B22222, #FF6347);
-            color: #ffffff;
-            border: 2px solid #B22222;
-            box-shadow: 0 4px 6px rgba(178, 34, 34, 0.4);
-            border-radius: 8px;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .alert {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-
-        .alert i {
-            margin-right: 10px;
-            font-size: 20px;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(244, 67, 54, 0.3);
         }
 
         .error-message {
-            color: red;
-            font-size: 14px;
-            margin-top: 5px;
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: 6px;
+            font-weight: 500;
         }
 
-        .user-info {
-            margin-bottom: 20px;
+        .user-welcome {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .user-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .user-info h2 {
+            margin: 0 0 4px 0;
+            font-size: 1.6rem;
         }
 
         .user-info p {
-            margin: 5px 0;
-            font-size: 16px;
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                padding: 20px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                margin-bottom: 12px;
+                margin-right: 0;
+            }
         }
     </style>
-</head>
 
-<body>
-    <div id="content-area">
-        <!-- Información de usuario -->
-        <div class="card-container user-info">
-            <h2>Bienvenido, {{ current_user.username }}</h2>
-            <p>Tu correo electrónico registrado es: <strong>{{ current_user.email }}</strong></p>
+    <div class="config-container">
+        <div class="user-welcome">
+            <div class="user-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="user-info">
+                <h2>Hola, {{ current_user.username }}</h2>
+                <p>{{ current_user.email }}</p>
+            </div>
         </div>
 
         <!-- Estado de licencia -->
-        <div id="license-status" class="card-container">
-            <h3>Estado de Licencia:</h3>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"><i class="fas fa-certificate"></i></div>
+                <h3>Estado de Licencia</h3>
+            </div>
+
             {% set licencia = current_user.licencias|selectattr('estado', 'equalto', 'Activa')|list|first %}
             {% if licencia %}
             {% if licencia.tipo == 'Mensual' %}
-            <div class="license-card license-card-expired">
-                <div>
-                    <h4>Tienes una licencia mensual activa</h4>
-                    <p><strong>Fecha de caducidad:</strong> {{ licencia.fecha_fin.strftime('%Y/%m/%d') }}</p>
+            <div class="license-status license-monthly">
+                <div class="license-status-content">
+                    <h4>Licencia Mensual Activa</h4>
+                    <p>Válida hasta: {{ licencia.fecha_fin.strftime('%d/%m/%Y') }}</p>
                 </div>
-                <i class="fas fa-credit-card fa-3x"></i>
+                <div class="license-status-icon">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
             </div>
             {% elif licencia.tipo == 'Anual' %}
-            <div class="license-card license-card-anual">
-                <div>
-                    <h4>Tienes una licencia anual activa</h4>
-                    <p><strong>Fecha de caducidad:</strong> {{ licencia.fecha_fin.strftime('%Y/%m/%d') }}</p>
+            <div class="license-status license-annual">
+                <div class="license-status-content">
+                    <h4>Licencia Anual Activa</h4>
+                    <p>Válida hasta: {{ licencia.fecha_fin.strftime('%d/%m/%Y') }}</p>
                 </div>
-                <i class="fas fa-calendar-alt fa-3x"></i>
+                <div class="license-status-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
             </div>
             {% elif licencia.tipo == 'Permanente' %}
-            <div class="license-card license-card-permanent">
-                <div>
+            <div class="license-status license-permanent">
+                <div class="license-status-content">
                     <h4>Licencia Permanente</h4>
+                    <p>Disfruta de acceso ilimitado a todas las funciones</p>
                 </div>
-                <i class="fas fa-gem fa-3x"></i>
+                <div class="license-status-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
             </div>
             {% endif %}
             {% else %}
-            <div class="license-card license-card-no-license">
-                <div>
-                    <h4>No tienes una licencia activa</h4>
-                    <p>Adquiere una licencia para acceder a todas las funciones.</p>
+            <div class="license-status license-none">
+                <div class="license-status-content">
+                    <h4>Sin Licencia Activa</h4>
+                    <p>Adquiere una licencia para acceder a todas las funciones</p>
                 </div>
-                <i class="fas fa-ban fa-3x"></i>
+                <div class="license-status-icon">
+                    <i class="fas fa-ban"></i>
+                </div>
             </div>
             {% endif %}
         </div>
 
-        <!-- Sección de Configuración -->
-        <div id="configuracion" class="card-container">
-            <h2>Configuración de Usuario</h2>
+        <!-- Cambio de contraseña -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"><i class="fas fa-key"></i></div>
+                <h3>Cambiar Contraseña</h3>
+            </div>
 
             <form method="POST" action="{{ url_for('user.update_configuration') }}" id="change-password-form">
                 <div class="form-group">
-                    <label for="new_password">Nueva Contraseña:</label>
-                    <input type="password" id="new_password" name="new_password" required />
+                    <label for="new_password">Nueva Contraseña</label>
+                    <input type="password" id="new_password" name="new_password"
+                        placeholder="Ingresa tu nueva contraseña" required />
                     <div id="new_password_error" class="error-message"></div>
                 </div>
                 <div class="form-group">
-                    <label for="confirm_password">Confirmar Nueva Contraseña:</label>
-                    <input type="password" id="confirm_password" name="confirm_password" required />
+                    <label for="confirm_password">Confirmar Contraseña</label>
+                    <input type="password" id="confirm_password" name="confirm_password"
+                        placeholder="Confirma tu nueva contraseña" required />
                     <div id="confirm_password_error" class="error-message"></div>
                 </div>
-                <button type="submit" class="btn btn-primary">Actualizar Contraseña</button>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Actualizar Contraseña
+                    </button>
+                </div>
             </form>
+        </div>
 
-            <!-- Sección para eliminar la cuenta -->
-            <form method="POST" action="{{ url_for('user.eliminar_cuenta') }}"> <button type="submit"
-                    class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar tu cuenta?')">
-                    Eliminar Cuenta
+        <!-- Eliminar cuenta -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon" style="background: linear-gradient(135deg, #d32f2f, #f44336);">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Zona de Peligro</h3>
+            </div>
+
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                Al eliminar tu cuenta, perderás el acceso a todos tus datos y licencias de forma permanente.
+                Esta acción no se puede deshacer.
+            </p>
+
+            <form method="POST" action="{{ url_for('user.eliminar_cuenta') }}">
+                <button type="submit" class="btn btn-danger"
+                    onclick="return confirm('¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.')">
+                    <i class="fas fa-trash-alt"></i> Eliminar Mi Cuenta
                 </button>
             </form>
         </div>
     </div>
 
     <script>
-        // Manejar el envío del formulario con validaciones simples
+        // Manejar el envío del formulario con validaciones
         document.getElementById("change-password-form").addEventListener("submit", function (event) {
             var newPassword = document.getElementById("new_password").value;
             var confirmPassword = document.getElementById("confirm_password").value;
@@ -245,19 +431,19 @@
 
             // Validar que ambos campos no están vacíos
             if (!newPassword || !confirmPassword) {
-                event.preventDefault(); // Evitar el envío del formulario
+                event.preventDefault();
                 document.getElementById("new_password_error").innerText = 'Ambos campos de contraseña son obligatorios.';
                 return;
             }
 
             // Validar que las contraseñas coinciden
             if (newPassword !== confirmPassword) {
-                event.preventDefault(); // Evitar el envío del formulario
+                event.preventDefault();
                 document.getElementById("confirm_password_error").innerText = 'Las contraseñas no coinciden.';
-                return; // No enviar el formulario si no coinciden
+                return;
             }
         });
     </script>
-</body>
+    </body>
 
 </html>
